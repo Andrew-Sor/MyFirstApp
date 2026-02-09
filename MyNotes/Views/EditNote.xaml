@@ -8,11 +8,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <SolidColorBrush x:Key="CommandBarBackgroundOpen"
+        Color="Transparent" />
+        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+    </Page.Resources>
+
     <Grid Padding="16" RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="16"/>
@@ -20,32 +25,22 @@
             <ColumnDefinition Width="16"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Padding="0" RowSpacing="4" Grid.Row="0" Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <Button x:Name="BackButton"
-                Click="BackButton_Click"
-                Style="{StaticResource TitleBarBackButtonStyle}"
-                IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}" 
-                ToolTipService.ToolTip="Назад"
-                Grid.Row="0" Grid.Column="0"/>
-            <TextBlock Text="{x:Bind noteModel.Date.ToString()}" Margin="16,8" 
-                Style="{ThemeResource SubtitleTextBlockStyle}" Grid.Row="0" Grid.Column="1"/>
-            <Button Style="{StaticResource SubtleButtonStyle}" Name="ButtonDelete" Click="DeleteButton_Click" Grid.Row="0" Grid.Column="2">
+        <CommandBar Background="Transparent" IsOpen="False" HorizontalContentAlignment="Left" DefaultLabelPosition="Right" Grid.Row="0" Grid.Column="1">
+            <CommandBar.Content>
                 <StackPanel Orientation="Horizontal" Spacing="4">
-                    <SymbolIcon Symbol="Delete" />
-                    <TextBlock Text="Удалить"/>
+                    <Button x:Name="BackButton"
+                        Click="BackButton_Click"
+                        Style="{StaticResource TitleBarBackButtonStyle}"
+                        IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}" 
+                        ToolTipService.ToolTip="Назад"/>
+                    <TextBlock Text="{x:Bind noteModel.Date.ToString()}" Margin="16,8" 
+                        Style="{ThemeResource SubtitleTextBlockStyle}"/>
                 </StackPanel>
-            </Button>
-        </Grid>
-        
+            </CommandBar.Content>
+            <AppBarButton Icon="Save" Label="Сохранить" Click="SaveButton_Click" AllowFocusOnInteraction="True"/>
+            <AppBarButton Icon="Delete" Label="Удалить" Click="DeleteButton_Click"/>
+        </CommandBar>
+
         <TextBox x:Name="NoteEditor"
             Text="{x:Bind noteModel.Text, Mode=TwoWay}"
             AcceptsReturn="True"

@@ -13,6 +13,12 @@
         <DataTemplate x:Key="NoteItemTemplate" 
                   x:DataType="models:Note">
             <ItemContainer CornerRadius="{StaticResource OverlayCornerRadius}">
+                <ItemContainer.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Изменить" Icon="Edit" Click="Edit_Click"/>
+                        <MenuFlyoutItem Text="Удалить" Icon="Delete" Click="Delete_Click"/>
+                    </MenuFlyout>
+                </ItemContainer.ContextFlyout>
                     <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderThickness="1" 
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -21,7 +27,7 @@
                         <RowDefinition Height="120"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Bind Text}" Margin="12,8"
+                    <TextBlock x:Name="NoteText" Text="{x:Bind Text}" Margin="12,8"
                            TextWrapping="Wrap"
                            TextTrimming="WordEllipsis"/>
                     <Border Grid.Row="1" Padding="8,6,0,6"
@@ -33,9 +39,12 @@
                 </Grid>
             </ItemContainer>
         </DataTemplate>
+        <SolidColorBrush x:Key="CommandBarBackgroundOpen"
+        Color="Transparent" />
+        <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
     </Page.Resources>
 
-    <Grid>
+    <Grid Padding="16" RowSpacing="8">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -47,9 +56,12 @@
                 <TextBlock Text="Все заметки" Margin="16,8" 
                    Style="{ThemeResource SubtitleTextBlockStyle}"/>
             </CommandBar.Content>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Setting" Label="Настройки" Click="SettingsButton_Click"/>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
 
-        <ItemsView ItemsSource="{x:Bind notesModel.Notes}" 
+        <ItemsView x:Name="NotesView" ItemsSource="{x:Bind notesModel.Notes}" 
             Grid.Row="1" Padding="16" ItemTemplate="{StaticResource NoteItemTemplate}"
             SelectionMode="None"
             IsItemInvokedEnabled="True"

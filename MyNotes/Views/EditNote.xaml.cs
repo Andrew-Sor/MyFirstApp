@@ -52,12 +52,28 @@ namespace MyNotes.Views
 
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (noteModel is not null)
+            if (NoteEditor.Text != string.Empty)
             {
-                await noteModel.DeleteAsync();
-            }
+                ContentDialog dialog = new ContentDialog();
 
-            if (Frame.CanGoBack == true)
+                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
+                dialog.XamlRoot = this.XamlRoot;
+                dialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                dialog.Title = "Удалить?";
+                dialog.PrimaryButtonText = "Удалить";
+                dialog.CloseButtonText = "Отмена";
+                dialog.DefaultButton = ContentDialogButton.Primary;
+                dialog.Content = new DialogDelete();
+
+                var result = await dialog.ShowAsync();
+
+                if (result == ContentDialogResult.Primary)
+                {
+                    await noteModel.DeleteAsync();
+                    Frame.GoBack();
+                }
+            }
+            else
             {
                 Frame.GoBack();
             }
@@ -96,6 +112,12 @@ namespace MyNotes.Views
             {
                 Frame.GoBack();
             }
+        }
+
+        private async void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            NoteText = NoteEditor.Text;
+            await noteModel.SaveAsync();
         }
     }
 }
