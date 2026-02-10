@@ -6,7 +6,8 @@
     xmlns:local="using:MyNotes.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
 
     <Grid Padding="16" RowSpacing="8">
         <Grid.RowDefinitions>
@@ -14,12 +15,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="16"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="16"/>
         </Grid.ColumnDefinitions>
 
-        <CommandBar Background="Transparent" IsOpen="False" HorizontalContentAlignment="Left" DefaultLabelPosition="Right" Grid.Row="0" Grid.Column="1">
+        <CommandBar Background="Transparent" IsOpen="False" HorizontalContentAlignment="Left" DefaultLabelPosition="Right" Grid.Row="0" Grid.Column="0">
             <CommandBar.Content>
                 <StackPanel Orientation="Horizontal" Spacing="4">
                     <Button x:Name="BackButton"
@@ -33,96 +32,112 @@
             </CommandBar.Content>
         </CommandBar>
 
-        <StackPanel Orientation="Vertical" Spacing="4" Grid.Row="1" Grid.Column="1" Width="auto">
-            <TextBlock Text="Внешний вид" Margin="4"/>
-            <Expander
-                IsExpanded="False"
-                ExpandDirection="Down"
-                VerticalAlignment="Top"
-                Width="auto"
-                HorizontalAlignment="Stretch">
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal" Spacing="16" Padding="16">
-                        <FontIcon Glyph="&#xE790;" />
-                        <StackPanel Orientation="Vertical" Spacing="0">
-                            <TextBlock Text="Тема приложения" FontSize="14"/>
-                            <TextBlock Text="Изменить тему приложения" FontSize="12"/>
+        <ScrollViewer Grid.Row="1" Grid.Column="0">
+            <StackPanel Orientation="Vertical" Spacing="4" Width="auto" Padding="18, 0">
+                <TextBlock Text="Внешний вид" Margin="4"/>
+                <Expander
+                    IsExpanded="False"
+                    ExpandDirection="Down"
+                    VerticalAlignment="Top"
+                    Width="auto"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Spacing="16" Padding="16">
+                            <FontIcon Glyph="&#xE790;" />
+                            <StackPanel Orientation="Vertical" Spacing="0">
+                                <TextBlock Text="Тема приложения" FontSize="14"/>
+                                <TextBlock Text="Изменить тему приложения" FontSize="12"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Expander.Header>
-                <Expander.Content>
-                    <StackPanel Orientation="Horizontal" Spacing="4">
-
-                    </StackPanel>
-                </Expander.Content>
-            </Expander>
-            <Expander
-                IsExpanded="False"
-                ExpandDirection="Down"
-                VerticalAlignment="Top"
-                Width="auto"
-                HorizontalAlignment="Stretch">
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal" Spacing="16" Padding="16">
-                        <SymbolIcon Symbol="Font"/>
-                        <StackPanel Orientation="Vertical" Spacing="0">
-                            <TextBlock Text="Шрифт" FontSize="14"/>
-                            <TextBlock Text="Изменить шрифт в приложении" FontSize="12"/>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <RadioButtons Header="Тема:" x:Name="ThemeRadioButtons" SelectionChanged="ThemeRadioButtons_SelectionChanged">
+                                <RadioButton
+                        Content="Светлая"
+                        Tag="Light" />
+                                <RadioButton
+                        Content="Тёмная"
+                        Tag="Dark" />
+                                <RadioButton
+                        Content="Системная"
+                        Tag="Default" />
+                            </RadioButtons>
                         </StackPanel>
-                    </StackPanel>
-                </Expander.Header>
-                <Expander.Content>
-                    <StackPanel Orientation="Horizontal" Spacing="4">
-
-                    </StackPanel>
-                </Expander.Content>
-            </Expander>
-
-            <TextBlock Text="Язык" Margin="4"/>
-            <Expander
-                IsExpanded="False"
-                ExpandDirection="Down"
-                VerticalAlignment="Top"
-                Width="auto"
-                HorizontalAlignment="Stretch">
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal" Spacing="16" Padding="16">
-                        <FontIcon Glyph="&#xF2B7;" />
-                        <StackPanel Orientation="Vertical" Spacing="0">
-                            <TextBlock Text="Язык" FontSize="14"/>
-                            <TextBlock Text="Изменить язык приложения" FontSize="12"/>
+                    </Expander.Content>
+                </Expander>
+                <Expander
+                    IsExpanded="False"
+                    ExpandDirection="Down"
+                    VerticalAlignment="Top"
+                    Width="auto"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Spacing="16" Padding="16">
+                            <SymbolIcon Symbol="Font"/>
+                            <StackPanel Orientation="Vertical" Spacing="0">
+                                <TextBlock Text="Шрифт" FontSize="14"/>
+                                <TextBlock Text="Изменить шрифт в приложении" FontSize="12"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Expander.Header>
-                <Expander.Content>
-                    <StackPanel Orientation="Horizontal" Spacing="4">
+                    </Expander.Header>
+                    <Expander.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
 
-                    </StackPanel>
-                </Expander.Content>
-            </Expander>
-
-            <TextBlock Text="О приложении" Margin="4"/>
-            <Expander
-                IsExpanded="False"
-                ExpandDirection="Down"
-                VerticalAlignment="Top"
-                Width="auto"
-                HorizontalAlignment="Stretch">
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal" Spacing="16" Padding="16">
-                        <FontIcon Glyph="&#xE946;" />
-                        <StackPanel Orientation="Vertical" Spacing="0">
-                            <TextBlock Text="О программе" FontSize="14"/>
-                            <TextBlock Text="Информация о приложении, разработчиках и прочее" FontSize="12"/>
                         </StackPanel>
-                    </StackPanel>
-                </Expander.Header>
-                <Expander.Content>
-                    <StackPanel Orientation="Horizontal" Spacing="4">
+                    </Expander.Content>
+                </Expander>
 
-                    </StackPanel>
-                </Expander.Content>
-            </Expander>
-        </StackPanel>
+                <TextBlock Text="Язык" Margin="4"/>
+                <Expander
+                    IsExpanded="False"
+                    ExpandDirection="Down"
+                    VerticalAlignment="Top"
+                    Width="auto"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Spacing="16" Padding="16">
+                            <FontIcon Glyph="&#xF2B7;" />
+                            <StackPanel Orientation="Vertical" Spacing="0">
+                                <TextBlock Text="Язык" FontSize="14"/>
+                                <TextBlock Text="Изменить язык приложения" FontSize="12"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+
+                        </StackPanel>
+                    </Expander.Content>
+                </Expander>
+
+                <TextBlock Text="О приложении" Margin="4"/>
+                <Expander
+                    IsExpanded="False"
+                    ExpandDirection="Down"
+                    VerticalAlignment="Top"
+                    Width="auto"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Left">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal" Spacing="16" Padding="16">
+                            <FontIcon Glyph="&#xE946;" />
+                            <StackPanel Orientation="Vertical" Spacing="0">
+                                <TextBlock Text="О программе" FontSize="14"/>
+                                <TextBlock Text="Информация о приложении, разработчиках и прочее" FontSize="12"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+
+                        </StackPanel>
+                    </Expander.Content>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

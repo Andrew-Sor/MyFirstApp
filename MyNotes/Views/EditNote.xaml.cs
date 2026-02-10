@@ -17,14 +17,8 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using static System.Net.Mime.MediaTypeNames;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace MyNotes.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class EditNote : Page
     {
         private Note? noteModel;
@@ -56,9 +50,20 @@ namespace MyNotes.Views
             {
                 ContentDialog dialog = new ContentDialog();
 
-                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-                dialog.XamlRoot = this.XamlRoot;
-                dialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                // Указываем XamlRoot из основного окна (гарантирует наследование темы)
+                if (App.Instance?.MainWindow?.Content is FrameworkElement fe)
+                {
+                    dialog.XamlRoot = fe.XamlRoot;
+                    // Передаём текущую тему приложения диалогу
+                    dialog.RequestedTheme = fe.RequestedTheme;
+                }
+                else
+                {
+                    // fallback на текущий XamlRoot страницы
+                    dialog.XamlRoot = this.XamlRoot;
+                    dialog.RequestedTheme = this.RequestedTheme;
+                }
+
                 dialog.Title = "Удалить?";
                 dialog.PrimaryButtonText = "Удалить";
                 dialog.CloseButtonText = "Отмена";
@@ -85,9 +90,18 @@ namespace MyNotes.Views
             {
                 ContentDialog dialog = new ContentDialog();
 
-                // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-                dialog.XamlRoot = this.XamlRoot;
-                dialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+                // Указываем XamlRoot из основного окна и тему
+                if (App.Instance?.MainWindow?.Content is FrameworkElement fe)
+                {
+                    dialog.XamlRoot = fe.XamlRoot;
+                    dialog.RequestedTheme = fe.RequestedTheme;
+                }
+                else
+                {
+                    dialog.XamlRoot = this.XamlRoot;
+                    dialog.RequestedTheme = this.RequestedTheme;
+                }
+
                 dialog.Title = "Сохранить?";
                 dialog.PrimaryButtonText = "Сохранить";
                 dialog.SecondaryButtonText = "Не сохранять";
