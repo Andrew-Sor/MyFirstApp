@@ -8,9 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DataContext="{Binding}">
         <!-- Content body -->
-        <TextBlock Text="Вы хотите сохранить заметку перед закрытием?" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding SaveDialog_Content, Mode=OneWay}" TextWrapping="Wrap" />
     </StackPanel>
 </Page>
 

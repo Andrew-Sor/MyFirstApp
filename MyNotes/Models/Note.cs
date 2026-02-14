@@ -20,10 +20,7 @@ namespace MyNotes.Models
         {
             // Save the note to a file.
             StorageFile noteFile = (StorageFile)await storageFolder.TryGetItemAsync(Filename);
-            if (noteFile is null)
-            {
-                noteFile = await storageFolder.CreateFileAsync(Filename, CreationCollisionOption.ReplaceExisting);
-            }
+            noteFile ??= await storageFolder.CreateFileAsync(Filename, CreationCollisionOption.ReplaceExisting);
             await FileIO.WriteTextAsync(noteFile, Text);
         }
 

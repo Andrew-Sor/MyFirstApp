@@ -40,7 +40,7 @@ namespace MyNotes.Models
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
                     StorageFile file = (StorageFile)item;
-                    Note note = new Note()
+                    Note note = new()
                     {
                         Filename = file.Name,
                         Text = await FileIO.ReadTextAsync(file),

@@ -48,6 +48,8 @@
     </Page>
   </ItemGroup>
 
+  <!-- localization resources are included by SDK by default -->
+
   <!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
     Explorer "Package and Publish" context menu entry to be enabled for this project even if

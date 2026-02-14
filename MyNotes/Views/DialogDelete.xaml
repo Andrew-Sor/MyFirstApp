@@ -8,9 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DataContext="{Binding}">
         <!-- Content body -->
-        <TextBlock Text="Вы точно хотите удалить заметку?" TextWrapping="Wrap" />
+        <TextBlock Text="{Binding DeleteDialog_Title, Mode=OneWay}" TextWrapping="Wrap" />
     </StackPanel>
 </Page>
 

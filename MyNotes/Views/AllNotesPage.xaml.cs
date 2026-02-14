@@ -1,19 +1,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using MyNotes.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -25,13 +14,13 @@ namespace MyNotes.Views;
 /// </summary>
 public sealed partial class AllNotesPage : Page
 {
-    private Note? noteModel;
     public string NoteText { get; private set; } = string.Empty;
 
-    private AllNotes notesModel = new AllNotes();
+    private AllNotes notesModel = new();
     public AllNotesPage()
     {
         InitializeComponent();
+        this.DataContext = MyNotes.Services.Localizer.Instance;
     }
 
     private void NewNoteButton_Click(object sender, RoutedEventArgs e)
@@ -39,10 +28,9 @@ public sealed partial class AllNotesPage : Page
         Frame.Navigate(typeof(EditNote));
     }
 
-    private void ItemsView_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args)
+    private void NotesView_ItemClick(object sender, ItemClickEventArgs args)
     {
-        Frame.Navigate(typeof(EditNote), args.InvokedItem);
-
+        Frame.Navigate(typeof(EditNote), args.ClickedItem);
     }
 
     private void Edit_Click(object sender, RoutedEventArgs e)
@@ -62,14 +50,51 @@ public sealed partial class AllNotesPage : Page
 
     private async void Delete_Click(object sender, RoutedEventArgs e)
     {
-        ContentDialog dialog = new ContentDialog();
+        var menuItem = (MenuFlyoutItem)sender;
 
-        // XamlRoot must be set in the case of a ContentDialog running in a Desktop app
-        dialog.XamlRoot = this.XamlRoot;
+        // CommandParameter in XAML is bound to Filename (string). Try to resolve Note by filename first.
+        Note? menunote = null;
+        string? filename = menuItem.CommandParameter as string;
+
+        if (!string.IsNullOrEmpty(filename))
+        {
+            menunote = notesModel.Notes.FirstOrDefault(n => n.Filename == filename);
+        }
+
+        // Fallback: try DataContext or parent menu target's DataContext
+        menunote ??= menuItem.DataContext as Note;
+
+        if (menunote == null)
+        {
+            var parentMenu = menuItem.Parent as MenuFlyout;
+            var target = parentMenu?.Target as FrameworkElement;
+            menunote = target?.DataContext as Note;
+        }
+
+        if (menunote == null)
+        {
+            // Nothing to delete
+            return;
+        }
+
+        ContentDialog dialog = new();
+
+        // Указываем XamlRoot из основного окна и тему (аналогично EditNote)
+        if (App.Instance?.MainWindow?.Content is FrameworkElement fe)
+        {
+            dialog.XamlRoot = fe.XamlRoot;
+            dialog.RequestedTheme = fe.RequestedTheme;
+        }
+        else
+        {
+            dialog.XamlRoot = this.XamlRoot;
+            dialog.RequestedTheme = this.RequestedTheme;
+        }
+
         dialog.Style = Microsoft.UI.Xaml.Application.Current.Resources["DefaultContentDialogStyle"] as Style;
-        dialog.Title = "Удалить?";
-        dialog.PrimaryButtonText = "Удалить";
-        dialog.CloseButtonText = "Отмена";
+        dialog.Title = MyNotes.Services.Localizer.Instance.DeleteDialog_Title;
+        dialog.PrimaryButtonText = MyNotes.Services.Localizer.Instance.DeleteDialog_PrimaryButton;
+        dialog.CloseButtonText = MyNotes.Services.Localizer.Instance.DeleteDialog_CloseButton;
         dialog.DefaultButton = ContentDialogButton.Primary;
         dialog.Content = new DialogDelete();
 
@@ -77,8 +102,10 @@ public sealed partial class AllNotesPage : Page
 
         if (result == ContentDialogResult.Primary)
         {
-            await noteModel.DeleteAsync();
-            Frame.GoBack();
+            // Note.DeleteAsync removes the underlying file by Filename property
+            await menunote.DeleteAsync();
+            // Remove from the observable collection so the UI updates
+            notesModel.Notes.Remove(menunote);
         }
     }
 
@@ -86,4 +113,5 @@ public sealed partial class AllNotesPage : Page
     {
         Frame.Navigate(typeof(SettingsPage));
     }
+
 }

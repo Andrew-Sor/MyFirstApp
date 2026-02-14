@@ -1,21 +1,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using MyNotes.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MyNotes.Views
 {
@@ -28,6 +15,7 @@ namespace MyNotes.Views
         public EditNote()
         {
             InitializeComponent();
+        this.DataContext = MyNotes.Services.Localizer.Instance;
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -48,7 +36,7 @@ namespace MyNotes.Views
         {
             if (NoteEditor.Text != string.Empty)
             {
-                ContentDialog dialog = new ContentDialog();
+                ContentDialog dialog = new();
 
                 // Указываем XamlRoot из основного окна (гарантирует наследование темы)
                 if (App.Instance?.MainWindow?.Content is FrameworkElement fe)
@@ -64,9 +52,9 @@ namespace MyNotes.Views
                     dialog.RequestedTheme = this.RequestedTheme;
                 }
 
-                dialog.Title = "Удалить?";
-                dialog.PrimaryButtonText = "Удалить";
-                dialog.CloseButtonText = "Отмена";
+                dialog.Title = MyNotes.Services.Localizer.Instance.DeleteDialog_Title;
+                dialog.PrimaryButtonText = MyNotes.Services.Localizer.Instance.DeleteDialog_PrimaryButton;
+                dialog.CloseButtonText = MyNotes.Services.Localizer.Instance.DeleteDialog_CloseButton;
                 dialog.DefaultButton = ContentDialogButton.Primary;
                 dialog.Content = new DialogDelete();
 
@@ -80,6 +68,7 @@ namespace MyNotes.Views
             }
             else
             {
+                await noteModel.DeleteAsync();
                 Frame.GoBack();
             }
         }
@@ -88,7 +77,7 @@ namespace MyNotes.Views
         {
             if (NoteEditor.Text != NoteText)
             {
-                ContentDialog dialog = new ContentDialog();
+                ContentDialog dialog = new();
 
                 // Указываем XamlRoot из основного окна и тему
                 if (App.Instance?.MainWindow?.Content is FrameworkElement fe)
@@ -102,10 +91,10 @@ namespace MyNotes.Views
                     dialog.RequestedTheme = this.RequestedTheme;
                 }
 
-                dialog.Title = "Сохранить?";
-                dialog.PrimaryButtonText = "Сохранить";
-                dialog.SecondaryButtonText = "Не сохранять";
-                dialog.CloseButtonText = "Отмена";
+                dialog.Title = MyNotes.Services.Localizer.Instance.SaveDialog_Title;
+                dialog.PrimaryButtonText = MyNotes.Services.Localizer.Instance.SaveDialog_PrimaryButton;
+                dialog.SecondaryButtonText = MyNotes.Services.Localizer.Instance.SaveDialog_SecondaryButton;
+                dialog.CloseButtonText = MyNotes.Services.Localizer.Instance.SaveDialog_CloseButton;
                 dialog.DefaultButton = ContentDialogButton.Primary;
                 dialog.Content = new DialogSave();
 

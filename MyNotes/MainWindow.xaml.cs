@@ -1,24 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.UI; // (дл€ совместимости типов)
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.UI; // Colors
-using WinRT.Interop; // WindowNative
-using Microsoft.UI; // (дл€ совместимости типов)
 using Windows.UI.ViewManagement; // UISettings, UIColorType
-using static MyNotes.App;
+using WinRT.Interop; // WindowNative
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -30,6 +19,36 @@ namespace MyNotes
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        // Win32 interop for subclassing and MINMAXINFO
+        [StructLayout(LayoutKind.Sequential)]
+        private struct POINT
+        {
+            public int x;
+            public int y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MINMAXINFO
+        {
+            public POINT ptReserved;
+            public POINT ptMaxSize;
+            public POINT ptMaxPosition;
+            public POINT ptMinTrackSize;
+            public POINT ptMaxTrackSize;
+        }
+
+        private delegate IntPtr SubclassProcDelegate(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, IntPtr uIdSubclass, IntPtr dwRefData);
+        private SubclassProcDelegate? _subclassProcInstance;
+
+        [DllImport("comctl32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern bool SetWindowSubclass(IntPtr hWnd, SubclassProcDelegate pfnSubclass, IntPtr uIdSubclass, IntPtr dwRefData);
+
+        [DllImport("comctl32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        private static extern IntPtr DefSubclassProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        private static extern uint GetDpiForWindow(IntPtr hWnd);
+
         public MainWindow()
         {
             InitializeComponent();
@@ -51,6 +70,60 @@ namespace MyNotes
                 };
 
                 ApplyThemeToTitleBar(elementTheme);
+            }
+
+            // «адаЄм минимальный размер окна (ширина x высота в DIPs) Ч через обработку WM_GETMINMAXINFO
+            const int minWidth = 505;
+            const int minHeight = 330;
+
+            try
+            {
+                var hwnd = WindowNative.GetWindowHandle(this);
+
+                // ѕодклассируем окно, чтобы перехватить WM_GETMINMAXINFO и задать минимум
+                _subclassProcInstance = new SubclassProcDelegate(SubclassProcLocal);
+                SetWindowSubclass(hwnd, _subclassProcInstance, IntPtr.Zero, IntPtr.Zero);
+
+                IntPtr SubclassProcLocal(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, IntPtr uIdSubclass, IntPtr dwRefData)
+                {
+                    const uint WM_GETMINMAXINFO = 0x24;
+                    if (msg == WM_GETMINMAXINFO)
+                    {
+                        try
+                        {
+                            uint dpi = 96;
+                            try
+                            {
+                                dpi = GetDpiForWindow(hWnd);
+                                if (dpi == 0) dpi = 96;
+                            }
+                            catch
+                            {
+                                dpi = 96;
+                            }
+
+                            double scale = dpi / 96.0;
+                            int pxMinW = (int)Math.Round(minWidth * scale);
+                            int pxMinH = (int)Math.Round(minHeight * scale);
+
+                            // Marshal MINMAXINFO, set ptMinTrackSize
+                            var mmi = Marshal.PtrToStructure<MINMAXINFO>(lParam);
+                            mmi.ptMinTrackSize.x = pxMinW;
+                            mmi.ptMinTrackSize.y = pxMinH;
+                            Marshal.StructureToPtr(mmi, lParam, true);
+                        }
+                        catch
+                        {
+                            // ignore
+                        }
+                    }
+
+                    return DefSubclassProc(hWnd, msg, wParam, lParam);
+                }
+            }
+            catch
+            {
+                // ѕодклассирование может быть недоступно в некоторых окружени€х Ч игнорируем
             }
         }
 
@@ -134,14 +207,6 @@ namespace MyNotes
             catch
             {
                 // ¬ некоторых окружени€х AppWindow/GetWindowId может быть недоступен Ч безопасно игнорируем
-            }
-        }
-
-        private void AppTitleBar_BackRequested(TitleBar sender, object args)
-        {
-            if (rootFrame.CanGoBack == true)
-            {
-                rootFrame.GoBack();
             }
         }
     }

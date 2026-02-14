@@ -14,15 +14,13 @@
         <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
     </Page.Resources>
 
-    <Grid Padding="16" RowSpacing="8">
+    <Grid Padding="16" RowSpacing="8" DataContext="{Binding}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="16"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="16"/>
         </Grid.ColumnDefinitions>
 
         <CommandBar Background="Transparent" IsOpen="False" HorizontalContentAlignment="Left" DefaultLabelPosition="Right" Grid.Row="0" Grid.Column="1">
@@ -37,17 +35,18 @@
                         Style="{ThemeResource SubtitleTextBlockStyle}"/>
                 </StackPanel>
             </CommandBar.Content>
-            <AppBarButton Icon="Save" Label="Сохранить" Click="SaveButton_Click" AllowFocusOnInteraction="True"/>
-            <AppBarButton Icon="Delete" Label="Удалить" Click="DeleteButton_Click"/>
+            <AppBarButton Icon="Save" Label="{Binding EditNote_Save_Label, Mode=OneWay}" Click="SaveButton_Click" AllowFocusOnInteraction="True"/>
+            <AppBarButton Icon="Delete" Label="{Binding EditNote_Delete_Label, Mode=OneWay}" Click="DeleteButton_Click"/>
         </CommandBar>
 
         <TextBox x:Name="NoteEditor"
             Text="{x:Bind noteModel.Text, Mode=TwoWay}"
             AcceptsReturn="True"
             TextWrapping="Wrap"
-            PlaceholderText="Введите текст заметки..."
+            PlaceholderText="{Binding EditNote_Placeholder, Mode=OneWay}"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             Width="Auto"
-            Grid.Row="1" Grid.Column="1"/>
+            Grid.Row="1" Grid.Column="1"
+            Margin="16, 0"/>
     </Grid>
 </Page>

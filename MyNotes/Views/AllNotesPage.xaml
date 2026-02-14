@@ -12,11 +12,11 @@
     <Page.Resources>
         <DataTemplate x:Key="NoteItemTemplate" 
                   x:DataType="models:Note">
-            <ItemContainer CornerRadius="{StaticResource OverlayCornerRadius}">
+            <ItemContainer Width="200" Margin="4" CornerRadius="{StaticResource OverlayCornerRadius}">
                 <ItemContainer.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Изменить" Icon="Edit" Click="Edit_Click"/>
-                        <MenuFlyoutItem Text="Удалить" Icon="Delete" Click="Delete_Click"/>
+                        <MenuFlyoutItem Text="{Binding DataContext.Menu_Edit_Text, ElementName=RootGrid, Mode=OneWay}" Icon="Edit" Click="Edit_Click" CommandParameter="{x:Bind Filename}"/>
+                        <MenuFlyoutItem Text="{Binding DataContext.Menu_Delete_Text, ElementName=RootGrid, Mode=OneWay}" Icon="Delete" Click="Delete_Click" CommandParameter="{x:Bind Filename}"/>
                     </MenuFlyout>
                 </ItemContainer.ContextFlyout>
                     <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -42,36 +42,55 @@
         <SolidColorBrush x:Key="CommandBarBackgroundOpen"
         Color="Transparent" />
         <Thickness x:Key="CommandBarBorderThicknessOpen">0</Thickness>
+        <!-- Remove default GridView item hover/pressed/selected background -->
+        <Style x:Key="GridViewItemNoHoverStyle" TargetType="GridViewItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewItem">
+                        <ListViewItemPresenter
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            PointerOverBackground="Transparent"
+                            PressedBackground="Transparent"
+                            SelectedBackground="Transparent"
+                            SelectedPointerOverBackground="Transparent"
+                            SelectedPressedBackground="Transparent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
-    <Grid Padding="16" RowSpacing="8">
+    <Grid x:Name="RootGrid" Padding="16" RowSpacing="8" DataContext="{Binding}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <CommandBar DefaultLabelPosition="Right">
-            <AppBarButton Icon="Add" Label="Новая заметка" Click="NewNoteButton_Click"/>
+            <AppBarButton Icon="Add" Label="{Binding AllNotes_NewNote_Label, Mode=OneWay}" Click="NewNoteButton_Click"/>
             <CommandBar.Content>
-                <TextBlock Text="Все заметки" Margin="16,8" 
+                <TextBlock x:Name="AllNotesTitle" Text="{Binding AllNotes_Title, Mode=OneWay}" Margin="16,8" 
                    Style="{ThemeResource SubtitleTextBlockStyle}"/>
             </CommandBar.Content>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Setting" Label="Настройки" Click="SettingsButton_Click"/>
+                <AppBarButton Icon="Setting" Label="{Binding AllNotes_Settings_Label, Mode=OneWay}" Click="SettingsButton_Click"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
 
-        <ItemsView x:Name="NotesView" ItemsSource="{x:Bind notesModel.Notes}" 
+        <GridView x:Name="NotesView" ItemsSource="{x:Bind notesModel.Notes}" 
             Grid.Row="1" Padding="16" ItemTemplate="{StaticResource NoteItemTemplate}"
+            ItemContainerStyle="{StaticResource GridViewItemNoHoverStyle}"
             SelectionMode="None"
-            IsItemInvokedEnabled="True"
-            ItemInvoked="ItemsView_ItemInvoked">
-            <ItemsView.Layout>
-                <UniformGridLayout MinItemWidth="200"
-                           MinColumnSpacing="12"
-                           MinRowSpacing="12"
-                           ItemsJustification="Start"/>
-            </ItemsView.Layout>
-        </ItemsView>
+            IsItemClickEnabled="True"
+            ItemClick="NotesView_ItemClick"
+            CanReorderItems="True"
+            AllowDrop="True">
+        </GridView>
     </Grid>
 </Page>

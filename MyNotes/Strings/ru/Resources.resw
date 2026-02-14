@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Settings_TitleText.Text" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Settings_AppearanceLabel.Text" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="Theme_HeaderTitle.Text" xml:space="preserve">
+    <value>Тема приложения</value>
+  </data>
+  <data name="Theme_HeaderSubtitle.Text" xml:space="preserve">
+    <value>Изменить тему приложения</value>
+  </data>
+  <data name="ThemeRadioButtons.Header" xml:space="preserve">
+    <value>Выберите тему:</value>
+  </data>
+  <data name="Theme_Light.Content" xml:space="preserve">
+    <value>Светлая</value>
+  </data>
+  <data name="Theme_Dark.Content" xml:space="preserve">
+    <value>Тёмная</value>
+  </data>
+  <data name="Theme_Default.Content" xml:space="preserve">
+    <value>Системная</value>
+  </data>
+  <data name="Text_HeaderTitle.Text" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="Text_HeaderSubtitle.Text" xml:space="preserve">
+    <value>Изменить шрифт и размер текста в приложении</value>
+  </data>
+  <data name="FontComboBox.Header" xml:space="preserve">
+    <value>Выберите шрифт:</value>
+  </data>
+  <data name="FontSizeComboBox.Header" xml:space="preserve">
+    <value>Выберите размер текста:</value>
+  </data>
+  <data name="Language_Label.Text" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="Language_HeaderTitle.Text" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="Language_HeaderSubtitle.Text" xml:space="preserve">
+    <value>Изменить язык приложения</value>
+  </data>
+  <data name="Info_Title.Text" xml:space="preserve">
+    <value>Мои заметки</value>
+  </data>
+  <data name="Info_Copyright.Text" xml:space="preserve">
+    <value>© 2026, Andrew_Sor. Все права защищены.</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>Версия: 1.0.2</value>
+  </data>
+  <data name="UpdateButton.Content" xml:space="preserve">
+    <value>Проверить наличие обновлений</value>
+  </data>
+  <data name="RepoButton.Content" xml:space="preserve">
+    <value>Репозиторий на GitHub</value>
+  </data>
+  <data name="IssueButton.Content" xml:space="preserve">
+    <value>Сообщить об ошибке</value>
+  </data>
+  <data name="SupportButton.Content" xml:space="preserve">
+    <value>Поддержка</value>
+  </data>
+  <data name="DeveloperButton.Content" xml:space="preserve">
+    <value>Разработчик</value>
+  </data>
+  <data name="RestartDialog_Title" xml:space="preserve">
+    <value>Перезапустить приложение</value>
+  </data>
+  <data name="RestartDialog_Content" xml:space="preserve">
+    <value>Для применения нового языка требуется перезапустить приложение. Перезапустить сейчас?</value>
+  </data>
+  <data name="RestartDialog_PrimaryButton" xml:space="preserve">
+    <value>Перезапустить</value>
+  </data>
+  <data name="RestartDialog_CloseButton" xml:space="preserve">
+    <value>Позже</value>
+  </data>
+  <data name="AllNotes_NewNote.Label" xml:space="preserve">
+    <value>Новая заметка</value>
+  </data>
+  <data name="AllNotes_Title.Text" xml:space="preserve">
+    <value>Все заметки</value>
+  </data>
+  <data name="AllNotes_Settings.Label" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Menu_Edit.Text" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="Menu_Delete.Text" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="EditNote_Save.Label" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="EditNote_Delete.Label" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="EditNote_Placeholder.Text" xml:space="preserve">
+    <value>Введите текст заметки...</value>
+  </data>
+  <data name="DeleteDialog_Title" xml:space="preserve">
+    <value>Удалить?</value>
+  </data>
+  <data name="DeleteDialog_PrimaryButton" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteDialog_CloseButton" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="SaveDialog_Title" xml:space="preserve">
+    <value>Сохранить заметку?</value>
+  </data>
+  <data name="SaveDialog_Content" xml:space="preserve">
+    <value>Вы хотите сохранить заметку перед закрытием?</value>
+  </data>
+  <data name="SaveDialog_PrimaryButton" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="SaveDialog_SecondaryButton" xml:space="preserve">
+    <value>Не сохранять</value>
+  </data>
+  <data name="SaveDialog_CloseButton" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+</root>

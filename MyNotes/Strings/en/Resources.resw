@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Settings_TitleText.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_AppearanceLabel.Text" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Theme_HeaderTitle.Text" xml:space="preserve">
+    <value>App theme</value>
+  </data>
+  <data name="Theme_HeaderSubtitle.Text" xml:space="preserve">
+    <value>Change the app theme</value>
+  </data>
+  <data name="ThemeRadioButtons.Header" xml:space="preserve">
+    <value>Select a theme:</value>
+  </data>
+  <data name="Theme_Light.Content" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="Theme_Dark.Content" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Theme_Default.Content" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="Text_HeaderTitle.Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Text_HeaderSubtitle.Text" xml:space="preserve">
+    <value>Change the app font and text size</value>
+  </data>
+  <data name="FontComboBox.Header" xml:space="preserve">
+    <value>Select font:</value>
+  </data>
+  <data name="FontSizeComboBox.Header" xml:space="preserve">
+    <value>Select text size:</value>
+  </data>
+  <data name="Language_Label.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Language_HeaderTitle.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Language_HeaderSubtitle.Text" xml:space="preserve">
+    <value>Change the app language</value>
+  </data>
+  <data name="Info_Title.Text" xml:space="preserve">
+    <value>My Notes</value>
+  </data>
+  <data name="Info_Copyright.Text" xml:space="preserve">
+    <value>© 2026, Andrew_Sor. All rights reserved.</value>
+  </data>
+  <data name="VersionText.Text" xml:space="preserve">
+    <value>Version: 1.0.2</value>
+  </data>
+  <data name="UpdateButton.Content" xml:space="preserve">
+    <value>Check for updates</value>
+  </data>
+  <data name="RepoButton.Content" xml:space="preserve">
+    <value>Repository on GitHub</value>
+  </data>
+  <data name="IssueButton.Content" xml:space="preserve">
+    <value>Report an issue</value>
+  </data>
+  <data name="SupportButton.Content" xml:space="preserve">
+    <value>Support</value>
+  </data>
+  <data name="DeveloperButton.Content" xml:space="preserve">
+    <value>Developer</value>
+  </data>
+  <data name="AllNotes_NewNote.Label" xml:space="preserve">
+    <value>New note</value>
+  </data>
+  <data name="AllNotes_Title.Text" xml:space="preserve">
+    <value>All notes</value>
+  </data>
+  <data name="AllNotes_Settings.Label" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Menu_Edit.Text" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Menu_Delete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EditNote_Save.Label" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="EditNote_Delete.Label" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EditNote_Placeholder.Text" xml:space="preserve">
+    <value>Enter note text...</value>
+  </data>
+  <data name="DeleteDialog_Title" xml:space="preserve">
+    <value>Delete?</value>
+  </data>
+  <data name="DeleteDialog_PrimaryButton" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteDialog_CloseButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SaveDialog_Title" xml:space="preserve">
+    <value>Save note?</value>
+  </data>
+  <data name="SaveDialog_Content" xml:space="preserve">
+    <value>Do you want to save the note before closing?</value>
+  </data>
+  <data name="SaveDialog_PrimaryButton" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveDialog_SecondaryButton" xml:space="preserve">
+    <value>Don't save</value>
+  </data>
+  <data name="SaveDialog_CloseButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+</root>
